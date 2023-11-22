@@ -1,0 +1,33 @@
+# This is a create short cut task for Dev Box.
+name: create-shortcut
+description: create a shortcut
+author: Microsoft Corporation
+command: "./main.ps1 -RootDirectory {{rootDirectory}} -FileName {{fileName}} -Command {{command}}"
+inputs:
+  rootDirectory:
+    defaultValue: ""
+    type: string
+    required: true
+    description: |
+      The root directory where the powrshell file will be created
+  fileName:
+    defaultValue: ""
+    type: string
+    required: true
+    description: |
+      The name of the shortcut file and the powershell file
+  command:
+    defaultValue: ""
+    type: string
+    required: true
+    description: |
+      The command which will be executed in the powershell file that has the shorcut on the desktop
+documentation:
+  notes: This task is used to create a shortcut.
+  examples:
+    - task: create-shortcut
+      description: create a shortcut to execute wsl
+      inputs:
+        rootDirectory: C:\temp
+        fileName: 1-run-after-provision
+        command: wsl -u root -- /mnt/host/c/temp/test.sh
