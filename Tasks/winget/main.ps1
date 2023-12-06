@@ -109,7 +109,7 @@ InstallPS7
 $installed_winget = InstallWinGet
 
 # TODO only need to setup scheduled tasks if running as user
-if (!(Test-Path -PathType Leaf "$($CustomizationScriptsDir)\$($LockFile)")) {
+if ($RunAsUser -eq "true" && !(Test-Path -PathType Leaf "$($CustomizationScriptsDir)\$($LockFile)")) {
     SetupScheduledTasks
 }
 
@@ -140,7 +140,9 @@ if ($Package) {
     if ($RunAsUser -eq "true") {
         AppendToUserScript $($installCommand)
     } else {
+        Write-Host "Start to install package $Package"
         Invoke-CimMethod -ClassName Win32_Process -MethodName Create -Arguments @{CommandLine="C:\Program Files\PowerShell\7\pwsh.exe -MTA -Command `"$installCommand`""}
+        Write-Host "End to install package $Package"
     }
 }
 
