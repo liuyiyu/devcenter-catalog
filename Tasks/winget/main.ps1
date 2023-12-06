@@ -6,7 +6,9 @@ param (
     [Parameter()]
     [string]$RunAsUser,
     [Parameter()]
-    [string]$Package
+    [string]$Package,
+    [Parameter()]
+    [string]$Version
 )
 
 $CustomizationScriptsDir = "C:\DevBoxCustomizations"
@@ -131,10 +133,14 @@ if ($installed_winget) {
 }
 
 if ($Package) {
+    $installCommand = "Install-WinGetPackage -Id $($Package)"
+    if($Version) {
+        $installCommand = "Install-WinGetPackage -Id $($Package) -Version $($Version)"
+    }
     if ($RunAsUser -eq "true") {
-        AppendToUserScript "Install-WinGetPackage -Id $($Package)"
+        AppendToUserScript $($installCommand)
     } else {
-        Invoke-CimMethod -ClassName Win32_Process -MethodName Create -Arguments @{CommandLine="C:\Program Files\PowerShell\7\pwsh.exe -MTA -Command `"Install-WinGetPackage -Id $($Package)`""}
+        Invoke-CimMethod -ClassName Win32_Process -MethodName Create -Arguments @{CommandLine="C:\Program Files\PowerShell\7\pwsh.exe -MTA -Command `"$installCommand`""}
     }
 }
 
