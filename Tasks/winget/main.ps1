@@ -109,7 +109,7 @@ InstallPS7
 $installed_winget = InstallWinGet
 
 # TODO only need to setup scheduled tasks if running as user
-if ($RunAsUser -eq "true" && !(Test-Path -PathType Leaf "$($CustomizationScriptsDir)\$($LockFile)")) {
+if (($RunAsUser -eq "true") -and !(Test-Path -PathType Leaf "$($CustomizationScriptsDir)\$($LockFile)")) {
     SetupScheduledTasks
 }
 
