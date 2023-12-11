@@ -240,7 +240,7 @@ if ($Pat) {
 }
 
 # Check if the repository is hosted in GitHub
-#if ($RepositoryUrl -match "github.com") {
+if ($RepositoryUrl -match "github.com") {
     # attempt to clone without credentials
     Write-Host "Attempting to clone repository: $($RepositoryUrl) to directory: $($Directory) without credentials"
     if ($Branch) {
@@ -285,8 +285,7 @@ if ($Pat) {
     finally {
         Pop-Location
     }
-
-#}
+}
 
 # If the code reaches this point, we failed to clone the repository during provisioning time or
 # a PAT was not provided. We'll queue the clone attempt for user login.
